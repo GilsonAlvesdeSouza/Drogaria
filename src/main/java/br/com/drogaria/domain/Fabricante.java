@@ -4,6 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Classe Fabricantes 
+ * @author gilsonalves
+ *
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "fabricantes")

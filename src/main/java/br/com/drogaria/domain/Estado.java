@@ -4,6 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+/**
+ * Classe Estados
+ * @author gilsonalves
+ *
+ */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "estados")
