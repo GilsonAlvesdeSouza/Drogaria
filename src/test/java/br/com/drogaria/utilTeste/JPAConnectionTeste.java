@@ -4,17 +4,17 @@ import javax.persistence.EntityManager;
 
 import org.junit.Test;
 
-import br.com.drogaria.conection.ConectionFactory;
+import br.com.drogaria.conection.ConnectionFactory;
 
 
-public class HibernateUtilTeste {
+public class JPAConnectionTeste {
 	@Test
 	public void conectar() {
 //		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
 //		sessao.close();
 //		HibernateUtil.getFabricaDeSessoes().close();
 		
-		EntityManager em = new ConectionFactory().getConnection();
+		EntityManager em = new ConnectionFactory().getConnection();
 		em.close();
 	}
 }

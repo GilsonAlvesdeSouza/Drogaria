@@ -22,7 +22,7 @@ public class Produto extends GenericDomain {
 	private String descricao;
 
 	@Column(nullable = false)
-	private short quntidade;
+	private Short quntidade;
 
 	@Column(nullable = false, precision = 6, scale = 2)
 	private BigDecimal preco;
