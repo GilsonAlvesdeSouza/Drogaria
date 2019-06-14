@@ -1,15 +1,20 @@
 package br.com.drogaria.utilTeste;
 
-import org.hibernate.Session;
+import javax.persistence.EntityManager;
+
 import org.junit.Test;
 
-import br.com.drogaria.util.HibernateUtil;
+import br.com.drogaria.conection.ConectionFactory;
+
 
 public class HibernateUtilTeste {
 	@Test
 	public void conectar() {
-		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
-		sessao.close();
-		HibernateUtil.getFabricaDeSessoes().close();
+//		Session sessao = HibernateUtil.getFabricaDeSessoes().openSession();
+//		sessao.close();
+//		HibernateUtil.getFabricaDeSessoes().close();
+		
+		EntityManager em = new ConectionFactory().getConnection();
+		em.close();
 	}
 }
