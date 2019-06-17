@@ -25,6 +25,7 @@ public class EstadoDAOTEste {
 			System.out.println("Erro ao salvar os dados! " + e2);
 		}
 	}
+
 	@Test
 	@Ignore
 	public void listar() {
@@ -36,53 +37,36 @@ public class EstadoDAOTEste {
 			System.out.println(estado.getSigla());
 		}
 	}
-	
+
 	@Test
 	@Ignore
 	public void buscar() {
-		Long  codigo = 1l;
+		Long codigo = 1l;
 		EstadoDAO dao = new EstadoDAO();
 		Estado es = dao.buscar(codigo);
 		System.out.println(es.getNome());
 	}
-	
+
 	@Test
 	@Ignore
 	public void editar() {
-		Long  codigo = 5l;
+		Long codigo = 5l;
 		EstadoDAO dao = new EstadoDAO();
 		Estado es = dao.buscar(codigo);
 		es.setNome("Brasilia");
 		es.setSigla("DF");
 		dao.editar(es);
 	}
-	
+
 	@Test
 //	@Ignore
 	public void excluir() {
-		Long  codigo = 2l;
-		EstadoDAO dao = new EstadoDAO();		
+		Long codigo = 2l;
+		EstadoDAO dao = new EstadoDAO();
 		try {
-			dao.excluir(codigo);			
+			dao.excluir(codigo);
 		} catch (Exception e) {
-			System.out.println("Erro:"+ e);
+			System.out.println("Erro:" + e);
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
