@@ -2,6 +2,7 @@ package br.com.drogaria.dao;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+
 import javax.persistence.EntityManager;
 
 import br.com.drogaria.conection.ConnectionFactory;
@@ -17,7 +18,7 @@ public class GenericDAO<Entidade> {
 	private Class<Entidade> classe;
 	String f = null;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings("unchecked")
 	public GenericDAO() {
 		this.classe = (Class<Entidade>) ((ParameterizedType) getClass().getGenericSuperclass())
 				.getActualTypeArguments()[0];
@@ -42,45 +43,51 @@ public class GenericDAO<Entidade> {
 			em.close();
 		}
 	}
-	
+
 	/**
-	 * Método que lista a entidade 
+	 * Método que lista a entidade
+	 * 
 	 * @return
 	 */
-	public List<Entidade> listar(){
+	@SuppressWarnings("unchecked")
+	public List<Entidade> listar() {
 		EntityManager em = new ConnectionFactory().getConnection();
-		List<Entidade> lista = null; 
+		List<Entidade> lista = null;
 		try {
-			lista = em.createQuery("from "+ classe.getSimpleName()).getResultList(); //comando "getSimpleName" Pega apenas o nome da classe em tempo de execução
+			lista = em.createQuery("from " + classe.getSimpleName()).getResultList(); // comando "getSimpleName" Pega
+																						// apenas o nome da classe em
+																						// tempo de execução
 			return lista;
 		} catch (Exception e) {
 			throw e;
-		}finally {
+		} finally {
 			em.close();
 		}
 	}
-	
+
 	/**
 	 * Método que busca uma entidade
+	 * 
 	 * @param codigo
 	 * @return
 	 */
 	public Entidade buscar(Long codigo) {
 		EntityManager em = new ConnectionFactory().getConnection();
 		Entidade entidade = null;
-		
+
 		try {
 			entidade = em.find(classe, codigo);
 		} catch (Exception e) {
 			throw e;
-		}finally {
+		} finally {
 			em.close();
 		}
 		return entidade;
 	}
-	
+
 	/**
 	 * Método para remover entidade
+	 * 
 	 * @param entidade
 	 */
 	public void excluir(Long codigo) {
@@ -98,9 +105,10 @@ public class GenericDAO<Entidade> {
 			em.close();
 		}
 	}
-	
+
 	/**
 	 * Método para editar uma entidade
+	 * 
 	 * @param entidade
 	 */
 	public void editar(Entidade entidade) {
@@ -117,10 +125,5 @@ public class GenericDAO<Entidade> {
 			em.close();
 		}
 	}
-	
+
 }
-
-
-
-
-
