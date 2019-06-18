@@ -98,7 +98,9 @@ public class GenericDAO<Entidade> {
 		try {
 			em.getTransaction().begin();
 			Entidade entidade = em.find(classe, codigo);
+//			if (entidade != null) {
 			em.remove(entidade);
+//			}
 			em.getTransaction().commit();
 		} catch (RuntimeException erro) {
 			em.getTransaction().rollback();

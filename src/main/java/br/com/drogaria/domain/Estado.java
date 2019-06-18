@@ -1,7 +1,5 @@
 package br.com.drogaria.domain;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -15,7 +13,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "estados")
-public class Estado extends GenericDomain implements Serializable {
+public class Estado extends GenericDomain {
 
 	@Column(name = "sigla", length = 2, nullable = false, unique = true)
 	private String sigla;

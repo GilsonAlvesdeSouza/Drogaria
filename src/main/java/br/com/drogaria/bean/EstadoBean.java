@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -41,6 +42,9 @@ public class EstadoBean implements Serializable {
 		estado = new Estado();
 	}
 
+	/**
+	 * Método para listar o Estado
+	 */
 	@PostConstruct
 	public void listar() {
 		edao = new EstadoDAO();
@@ -52,14 +56,35 @@ public class EstadoBean implements Serializable {
 		}
 	}
 
+	/**
+	 * Método para salvar o Estado
+	 */
 	public void salvar() {
 		edao = new EstadoDAO();
 		try {
 			edao.salvar(estado);
 			Messages.addGlobalInfo("Dados salvo com sucesso!");
+			estados = edao.listar();
 			novo();
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar salvar os dados!");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Método para excluir um Estado
+	 */
+	public void excluir(ActionEvent evento) {
+		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
+		edao = new EstadoDAO();
+		System.out.println("Gilson " + estado.getCodigo());
+		try {
+			edao.excluir(estado.getCodigo());
+			Messages.addGlobalInfo("Dados excluidos com sucesso!");
+			estados = edao.listar();
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar Excluir os dados!");
 			e.printStackTrace();
 		}
 	}

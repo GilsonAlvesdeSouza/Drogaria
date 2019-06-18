@@ -1,5 +1,7 @@
 package br.com.drogaria.dao;
 
+import java.io.Serializable;
+
 import br.com.drogaria.domain.Estado;
 
 /**
@@ -8,6 +10,6 @@ import br.com.drogaria.domain.Estado;
  * @author gilsonalves
  *
  */
-public class EstadoDAO extends GenericDAO<Estado> {
+public class EstadoDAO extends GenericDAO<Estado> implements Serializable {
 
 }
