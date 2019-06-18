@@ -9,18 +9,24 @@
 	<title>Cadastro de Estados</title>
 </h:head>
 <h:body>
-
+	<p:growl id="mensagem" />
 	<!-- Painel de listagem -->
-	<h:form>
+	<h:form id="formList">
 		<p:panel header="Estado - Listagem">
 			<p:dataTable emptyMessage="Nenhum registro encontrado!"
-				paginator="true">
+				paginator="true" value="#{estadoBean.estados}" var="estado"
+				rows="10">
 				<f:facet name="footer">
-					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();" />
+					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
+						actionListener="#{estadoBean.novo()}" update=":formCad:painelCad" />
 				</f:facet>
-				<p:column headerText="Nome" sortBy="" filterBy="">
+				<p:column headerText="Nome" sortBy="#{estado.nome}"
+					filterBy="#{estado.sigla}">
+					<h:outputText value="#{estado.nome}" />
 				</p:column>
-				<p:column headerText="Sigla" sortBy="" filterBy="">
+				<p:column headerText="Sigla" sortBy="#{estado.sigla}"
+					filterBy="#{estado.sigla}">
+					<h:outputText value="#{estado.sigla}" />
 				</p:column>
 				<p:column headerText="Opções">
 				</p:column>
@@ -31,16 +37,21 @@
 	<!-- Formulário de cadstro -->
 	<p:dialog header="Estados - Cadastro" widgetVar="dialogo"
 		draggable="false" resizable="false" modal="true" closable="false">
-		<h:form>
-			<h:panelGrid columns="2">
+		<h:form id="formCad">
+			<h:panelGrid id="painelCad" columns="2">
 				<p:outputLabel value="Nome:" />
-				<p:inputText size="30" maxlength="50" />
+				<p:inputText size="30" maxlength="50"
+					value="#{estadoBean.estado.nome}" />
 				<p:outputLabel value="Sigla:" />
-				<p:inputText size="5" maxlength="2" />
+				<p:inputText size="5" maxlength="2"
+					value="#{estadoBean.estado.sigla}" />
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-				<p:commandButton value="Salvar" />
-				<p:commandButton value="Cancelar" oncomplete="PF('dialogo').hide();"/>
+				<p:commandButton value="Salvar"
+					actionListener="#{estadoBean.salvar}"
+					update=":mensagem :formCad:painelCad"
+					oncomplete="#{estadoBean.salvar()}" />
+				<p:commandButton value="Cancelar" oncomplete="PF('dialogo').hide();" />
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>

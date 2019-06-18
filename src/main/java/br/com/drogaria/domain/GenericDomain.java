@@ -10,12 +10,14 @@ import javax.persistence.MappedSuperclass;
 
 /**
  * classe que cria chaves primárias
+ * 
  * @author gilsonalves
  *
  */
 @SuppressWarnings("serial")
-@MappedSuperclass //não corresponde a uma tabela mas será usadas pelas outras classes para gerar tabelas
-public class GenericDomain implements Serializable{
+@MappedSuperclass // não corresponde a uma tabela mas será usadas pelas outras classes para gerar
+					// tabelas
+public class GenericDomain implements Serializable {
 	@Id()
 	@Column(name = "id", nullable = false, unique = true)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +30,7 @@ public class GenericDomain implements Serializable{
 	public void setCodigo(Long codigo) {
 		this.codigo = codigo;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -53,5 +55,5 @@ public class GenericDomain implements Serializable{
 			return false;
 		return true;
 	}
-	
+
 }

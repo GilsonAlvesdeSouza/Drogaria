@@ -34,7 +34,9 @@ public class GenericDAO<Entidade> {
 
 		try {
 			em.getTransaction().begin();
-			em.persist(entidade);
+			if (entidade != null) {
+				em.persist(entidade);
+			}
 			em.getTransaction().commit();
 		} catch (RuntimeException erro) {
 			em.getTransaction().rollback();
