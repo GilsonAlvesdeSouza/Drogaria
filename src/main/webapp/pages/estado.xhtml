@@ -29,13 +29,24 @@
 					<h:outputText value="#{estado.sigla}" />
 				</p:column>
 				<p:column headerText="Opções">
+					<!-- Lixeira -->
 					<p:commandButton icon="ui-icon-trash"
-						actionListener="#{estadoBean.excluir}" update=":mensagem :formList:tabelaList">
+						actionListener="#{estadoBean.excluir}"
+						update=":mensagem :formList:tabelaList">
 						<p:confirm header="Atenção"
-							message="Tem certeza que deseja excluir?" icon="ui-icon-alert" />
+							message="Tem certeza que deseja excluir os dados?"
+							icon="ui-icon-alert" />
 						<f:attribute name="estadoSelecionado" value="#{estado}" />
 					</p:commandButton>
-					
+
+					<!-- Lápis -->
+					<p:commandButton icon="ui-icon-pencil"
+						actionListener="#{estadoBean.editar}"
+						oncomplete="PF('dialogo').show();"
+						update=":formList:tabelaList :formCad:painelCad">
+						<f:attribute name="estadoSelecionado" value="#{estado}" />
+					</p:commandButton>
+
 				</p:column>
 			</p:dataTable>
 			<p:confirmDialog global="true">
@@ -60,11 +71,11 @@
 					value="#{estadoBean.estado.sigla}" />
 			</h:panelGrid>
 			<h:panelGrid columns="2">
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 				<p:commandButton value="Salvar"
 					actionListener="#{estadoBean.salvar}"
 					update=":mensagem :formCad:painelCad :formList:tabelaList"
-					oncomplete="#{estadoBean.salvar()}" />
-				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
+					oncomplete="#{estadoBeanBean.salvar()}"/>
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>

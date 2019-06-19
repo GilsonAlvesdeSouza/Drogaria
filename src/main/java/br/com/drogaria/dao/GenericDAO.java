@@ -29,6 +29,7 @@ public class GenericDAO<Entidade> {
 	 * 
 	 * @param entidade
 	 */
+	@SuppressWarnings("static-access")
 	public void salvar(Entidade entidade) {
 		EntityManager em = new ConnectionFactory().getConnection();
 
@@ -51,7 +52,7 @@ public class GenericDAO<Entidade> {
 	 * 
 	 * @return
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "static-access" })
 	public List<Entidade> listar() {
 		EntityManager em = new ConnectionFactory().getConnection();
 		List<Entidade> lista = null;
@@ -73,6 +74,7 @@ public class GenericDAO<Entidade> {
 	 * @param codigo
 	 * @return
 	 */
+	@SuppressWarnings("static-access")
 	public Entidade buscar(Long codigo) {
 		EntityManager em = new ConnectionFactory().getConnection();
 		Entidade entidade = null;
@@ -92,15 +94,14 @@ public class GenericDAO<Entidade> {
 	 * 
 	 * @param entidade
 	 */
+
+	@SuppressWarnings("static-access")
 	public void excluir(Long codigo) {
 		EntityManager em = new ConnectionFactory().getConnection();
-
 		try {
 			em.getTransaction().begin();
 			Entidade entidade = em.find(classe, codigo);
-//			if (entidade != null) {
 			em.remove(entidade);
-//			}
 			em.getTransaction().commit();
 		} catch (RuntimeException erro) {
 			em.getTransaction().rollback();
@@ -115,16 +116,42 @@ public class GenericDAO<Entidade> {
 	 * 
 	 * @param entidade
 	 */
-	public void editar(Entidade entidade) {
+	@SuppressWarnings("static-access")
+	public void merge(Entidade entidade) {
 		EntityManager em = new ConnectionFactory().getConnection();
 
 		try {
 			em.getTransaction().begin();
-			em.merge(entidade);
+			if (entidade != null) {
+				em.merge(entidade);
+			}
 			em.getTransaction().commit();
 		} catch (RuntimeException erro) {
 			em.getTransaction().rollback();
 			throw erro;
+		} finally {
+			em.close();
+		}
+	}
+
+	/**
+	 * Método que lista Ordenado a entidade (é preciso que imforme o campo ao qual
+	 * deseja ser ordenado)
+	 * 
+	 * @return
+	 */
+
+	@SuppressWarnings({ "static-access", "unchecked" })
+	public List<Entidade> listarOrdenado(String campo) {
+		EntityManager em = new ConnectionFactory().getConnection();
+		List<Entidade> lista = null;
+		try {
+			String consulta = "FROM " + classe.getSimpleName() + " ORDER BY " + campo;
+			lista = em.createQuery(consulta).getResultList();
+			return lista;
+
+		} catch (Exception e) {
+			throw e;
 		} finally {
 			em.close();
 		}

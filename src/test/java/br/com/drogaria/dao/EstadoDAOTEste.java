@@ -55,7 +55,7 @@ public class EstadoDAOTEste {
 		Estado es = dao.buscar(codigo);
 		es.setNome("Brasilia");
 		es.setSigla("DF");
-		dao.editar(es);
+		dao.merge(es);
 	}
 
 	@Test

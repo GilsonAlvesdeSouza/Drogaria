@@ -13,6 +13,12 @@ import org.omnifaces.util.Messages;
 import br.com.drogaria.dao.EstadoDAO;
 import br.com.drogaria.domain.Estado;
 
+/**
+ * Classe bean do Estado
+ * 
+ * @author gilsonalves
+ *
+ */
 @SuppressWarnings({ "deprecation", "serial" })
 @ManagedBean
 @ViewScoped
@@ -62,7 +68,7 @@ public class EstadoBean implements Serializable {
 	public void salvar() {
 		edao = new EstadoDAO();
 		try {
-			edao.salvar(estado);
+			edao.merge(estado);
 			Messages.addGlobalInfo("Dados salvo com sucesso!");
 			estados = edao.listar();
 			novo();
@@ -78,7 +84,6 @@ public class EstadoBean implements Serializable {
 	public void excluir(ActionEvent evento) {
 		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
 		edao = new EstadoDAO();
-		System.out.println("Gilson " + estado.getCodigo());
 		try {
 			edao.excluir(estado.getCodigo());
 			Messages.addGlobalInfo("Dados excluidos com sucesso!");
@@ -87,5 +92,15 @@ public class EstadoBean implements Serializable {
 			Messages.addGlobalError("Ocorreu um erro ao tentar Excluir os dados!");
 			e.printStackTrace();
 		}
+	}
+
+	/**
+	 * Método para editar um Estado
+	 * 
+	 * @param evento
+	 */
+	public void editar(ActionEvent evento) {
+		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
+
 	}
 }

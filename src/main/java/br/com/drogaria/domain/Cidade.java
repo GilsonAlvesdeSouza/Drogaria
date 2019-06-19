@@ -8,16 +8,17 @@ import javax.persistence.Table;
 
 /**
  * Classe Cidades
+ * 
  * @author gilsonalves
  *
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "cidades")
-public class Cidade extends GenericDomain{
-	@Column(length = 50, nullable = false)
+public class Cidade extends GenericDomain {
+	@Column(length = 50, nullable = false, unique = true)
 	private String nome;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "id_estado", nullable = false)
 	private Estado estado;
@@ -36,5 +37,5 @@ public class Cidade extends GenericDomain{
 
 	public void setEstado(Estado estado) {
 		this.estado = estado;
-	}	
-} 
+	}
+}

@@ -10,6 +10,7 @@ import br.com.drogaria.domain.Estado;
  * @author gilsonalves
  *
  */
+@SuppressWarnings("serial")
 public class EstadoDAO extends GenericDAO<Estado> implements Serializable {
 
 }

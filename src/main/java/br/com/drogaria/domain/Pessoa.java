@@ -29,7 +29,7 @@ public class Pessoa extends GenericDomain {
 	@Column(length = 50, nullable = false)
 	private String rua;
 
-	@Column(nullable = false)
+	@Column
 	private short numero;
 
 	@Column(length = 50, nullable = false)
@@ -149,5 +149,5 @@ public class Pessoa extends GenericDomain {
 	public void setCidade(Cidade cidade) {
 		this.cidade = cidade;
 	}
-	
+
 }

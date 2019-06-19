@@ -6,17 +6,14 @@
 	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Cadastro de cidades</title>
+	<title>Cadastro do Usuários</title>
 </h:head>
 <h:body>
-	<p:growl id="mensagem" />
-	<!-- Painel de listagem -->
-	<h:form id="formList">
-		<p:panel header="Cidade - Listagem">
-			<p:dataTable id="tabelaList"
-				emptyMessage="Nunhum registro encontrado!" paginator="true"
-				value="#{cidadeBean.cidades}" var="cidade" rows="10">
-				<!-- Botão Novo -->
+	<h:form>
+		<p:panel header="Usuários - Listagem">
+			<p:dataTable emptyMessage="Nenhum registro encontrado."
+				paginator="true" value="#{cidadeBean.cidades}" var="cidade"
+				rows="10">
 				<f:facet name="header">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
 						actionListener="#{cidadeBean.novo}"
@@ -25,17 +22,19 @@
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
 				</f:facet>
-				<!-- Colunas -->
-				<p:column headerText="Nome" sortBy="#{cidade.nome}"
-					filterBy="#{cidade.nome}">
-					<h:outputText value="#{cidade.nome}"/>
+
+				<p:column headerText="Nome">
 				</p:column>
-				<p:column headerText="Estado" sortBy="#{cidade.estado.nome}"
-					filterBy="#{cidade.estado.nome}">
-					<h:outputText value="#{cidade.estado.nome}" />
-					<h:outputText value=" - " />
-					<h:outputText value="#{cidade.estado.sigla}" />
+
+				<p:column headerText="CPF">
 				</p:column>
+
+				<p:column headerText="Tipo">
+				</p:column>
+
+				<p:column headerText="Ativo">
+				</p:column>
+
 				<p:column headerText="Opções" style="width:100px">
 					<!-- Lixeira  -->
 					<p:commandButton icon="ui-icon-trash"
@@ -53,7 +52,8 @@
 						oncomplete="PF('dialogo').show();"
 						update=":formList:tabelaList :formCad:painelCad :mensagem">
 						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
-						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -66,25 +66,28 @@
 		</p:panel>
 	</h:form>
 
-	<!-- Formulário de cadastro -->
-	<p:dialog header="Cidades - Cadastro" widgetVar="dialogo"
+	<p:dialog header="Usuários - Cadastro" widgetVar="dialogo"
 		draggable="false" resizable="false" modal="true" closable="false">
-		<h:form id="formCad">
-			<h:panelGrid id="painelCad" columns="2">
-				<p:outputLabel value="Nome:" for="nome" />
-				<p:inputText id="nome" maxlength="50" size="30"
-					value="#{cidadeBean.cidade.nome}" required="true"
-					requiredMessage="O campo 'Nome' é obrigatório!" />
-				<p:outputLabel value="Estado:" for="estado" />
-				<p:selectOneMenu id="estado" filter="true"
-					value="#{cidadeBean.cidade.estado}"
-					converter="omnifaces.SelectItemsConverter" required="true"
-					requiredMessage="O campo 'Estado' é obrigatório!">
-					<f:selectItem noSelectionOption="true"
-						itemLabel="Selecione um estado" />
-					<f:selectItems value="#{cidadeBean.estados}" var="estado"
-						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
+		<h:form>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Pessoa:" />
+				<p:selectOneMenu filter="true">
+					<f:selectItem itemValue="" itemLabel="Selecione uma pessoa" />
 				</p:selectOneMenu>
+
+				<p:outputLabel value="Senha:" />
+				<p:password maxlength="8" size="10" />
+
+				<p:outputLabel value="Tipo:" />
+				<p:selectOneRadio>
+					<f:selectItem itemValue="A" itemLabel="Administrador" />
+					<f:selectItem itemValue="G" itemLabel="Gerente" />
+					<f:selectItem itemValue="B" itemLabel="Balconista" />
+				</p:selectOneRadio>
+
+				<p:outputLabel value="Ativo:" />
+				<p:selectBooleanCheckbox />
+
 			</h:panelGrid>
 
 			<h:panelGrid columns="2">
