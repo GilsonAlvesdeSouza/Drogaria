@@ -44,10 +44,6 @@ public class EstadoBean implements Serializable {
 		this.estados = estados;
 	}
 
-	public void novo() {
-		estado = new Estado();
-	}
-
 	/**
 	 * Método para listar o Estado
 	 */
@@ -63,6 +59,23 @@ public class EstadoBean implements Serializable {
 	}
 
 	/**
+	 * Método para criar um novo Estado
+	 */
+	public void novo() {
+		estado = new Estado();
+	}
+
+	/**
+	 * Método para editar um Estado
+	 * 
+	 * @param evento
+	 */
+	public void editar(ActionEvent evento) {
+		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
+
+	}
+
+	/**
 	 * Método para salvar o Estado
 	 */
 	public void salvar() {
@@ -70,8 +83,10 @@ public class EstadoBean implements Serializable {
 		try {
 			edao.merge(estado);
 			Messages.addGlobalInfo("Dados salvo com sucesso!");
-			estados = edao.listar();
+			estados = edao.listarOrdenado("nome");
 			novo();
+		} catch (javax.persistence.PersistenceException erro) {
+			Messages.addGlobalError("O 'Estado' ou A 'Sigla' que você está tentando salvar já existe!");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar salvar os dados!");
 			e.printStackTrace();
@@ -87,20 +102,11 @@ public class EstadoBean implements Serializable {
 		try {
 			edao.excluir(estado.getCodigo());
 			Messages.addGlobalInfo("Dados excluidos com sucesso!");
-			estados = edao.listar();
+			estados = edao.listarOrdenado("nome");
 		} catch (RuntimeException e) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar Excluir os dados!");
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Método para editar um Estado
-	 * 
-	 * @param evento
-	 */
-	public void editar(ActionEvent evento) {
-		estado = (Estado) evento.getComponent().getAttributes().get("estadoSelecionado");
-
-	}
 }

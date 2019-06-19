@@ -15,7 +15,10 @@
 		<p:panel header="Cidade - Listagem">
 			<p:dataTable id="tabelaList"
 				emptyMessage="Nunhum registro encontrado!" paginator="true"
-				value="#{cidadeBean.cidades}" var="cidade" rows="10">
+				draggableRows="true" resizableColumns="true" value="#{cidadeBean.cidades}" var="cidade"
+				rows="5">
+				<p:ajax event="rowReorder" listener="#{cidadeBean.moverLinha}"
+					update=":formList:tabelaList :mensagem" />
 				<!-- Botão Novo -->
 				<f:facet name="header">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
@@ -28,7 +31,7 @@
 				<!-- Colunas -->
 				<p:column headerText="Nome" sortBy="#{cidade.nome}"
 					filterBy="#{cidade.nome}">
-					<h:outputText value="#{cidade.nome}"/>
+					<h:outputText value="#{cidade.nome}" />
 				</p:column>
 				<p:column headerText="Estado" sortBy="#{cidade.estado.nome}"
 					filterBy="#{cidade.estado.nome}">
@@ -53,7 +56,8 @@
 						oncomplete="PF('dialogo').show();"
 						update=":formList:tabelaList :formCad:painelCad :mensagem">
 						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
-						<f:actionListener type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>

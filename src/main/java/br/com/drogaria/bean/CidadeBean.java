@@ -4,11 +4,14 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
+import org.primefaces.event.ReorderEvent;
 
 import br.com.drogaria.dao.CidadeDAO;
 import br.com.drogaria.dao.EstadoDAO;
@@ -64,6 +67,23 @@ public class CidadeBean implements Serializable {
 		this.estados = estados;
 	}
 
+	/**
+	 * Método para listar o Estado
+	 */
+	@PostConstruct
+	public void listar() {
+		cdao = new CidadeDAO();
+		try {
+			cidades = cdao.listarOrdenado("nome");
+		} catch (RuntimeException e) {
+			Messages.addGlobalError("Ocorreu um erro ao tentar listar os dados!");
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Método que cria uma nova Cidade
+	 */
 	public void novo() {
 		cidade = new Cidade();
 		edao = new EstadoDAO();
@@ -76,15 +96,17 @@ public class CidadeBean implements Serializable {
 	}
 
 	/**
-	 * Método para listar o Estado
+	 * Método para editar um Estado pela passagem de um objeto
+	 * 
+	 * @param evento
 	 */
-	@PostConstruct
-	public void listar() {
-		cdao = new CidadeDAO();
+	public void editar(ActionEvent evento) {
+		cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
+		edao = new EstadoDAO();
 		try {
-			cidades = cdao.listarOrdenado("nome");
+			estados = edao.listarOrdenado("nome");
 		} catch (RuntimeException e) {
-			Messages.addGlobalError("Ocorreu um erro ao tentar listar os dados!");
+			Messages.addGlobalError("Ocorreu um erro ao tentar selecionar uma  Cidade!");
 			e.printStackTrace();
 		}
 	}
@@ -120,25 +142,19 @@ public class CidadeBean implements Serializable {
 			Messages.addGlobalInfo("Dados excluidos com sucesso!");
 			cidades = cdao.listarOrdenado("nome");
 		} catch (RuntimeException e) {
-			Messages.addGlobalError("Ocorreu um erro ao tentar Excluir os dados!");
+			Messages.addGlobalError("Ocorreu um erro ao tentar excluir os dados!");
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Método para editar um Estado
+	 * Método para mover linhas do DataTable
 	 * 
-	 * @param evento
+	 * @param event
 	 */
-	public void editar(ActionEvent evento) {
-		cidade = (Cidade) evento.getComponent().getAttributes().get("cidadeSelecionada");
-		edao = new EstadoDAO();
-		try {
-			estados = edao.listarOrdenado("nome");
-		} catch (RuntimeException e) {
-			Messages.addGlobalError("Ocorreu um erro ao tentar selecionar uma  Cidade!");
-			e.printStackTrace();
-		}
-
+	public void moverLinha(ReorderEvent event) {
+		FacesMessage msg = new FacesMessage(FacesMessage.SEVERITY_INFO, "Linha Movida",
+				"From: " + event.getFromIndex() + ", To:" + event.getToIndex());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 }

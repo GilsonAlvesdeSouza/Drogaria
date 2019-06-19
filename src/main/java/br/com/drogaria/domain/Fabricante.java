@@ -5,24 +5,25 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 /**
- * Classe Fabricantes 
+ * Classe Fabricantes
+ * 
  * @author gilsonalves
  *
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "fabricantes")
-public class Fabricante extends GenericDomain{
-	
-	@Column(name = "fabricantes", length = 80, nullable = false, unique = true)
-	private String fabricante;
+public class Fabricante extends GenericDomain {
 
-	public String getFabricante() {
-		return fabricante;
+	@Column(length = 80, nullable = false, unique = true)
+	private String descricao;
+
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setFabricante(String fabricante) {
-		this.fabricante = fabricante;
+	public void setDescricao(String fabricante) {
+		this.descricao = fabricante;
 	}
-	
+
 }

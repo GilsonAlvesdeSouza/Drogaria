@@ -13,13 +13,23 @@
 	<!-- Painel de listagem -->
 	<h:form id="formList">
 		<p:panel header="Estado - Listagem">
+
+			<!-- Tabela Listagem -->
 			<p:dataTable emptyMessage="Nenhum registro encontrado!"
 				id="tabelaList" paginator="true" value="#{estadoBean.estados}"
 				var="estado" rows="10">
-				<f:facet name="footer">
+
+				<!-- Botão Novo -->
+				<f:facet name="header">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
-						actionListener="#{estadoBean.novo()}" update=":formCad:painelCad" />
+						title="cria um novo Estado" actionListener="#{estadoBean.novo()}"
+						update=":formCad:painelCad">
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
 				</f:facet>
+
+				<!-- Colunas -->
 				<p:column headerText="Nome" sortBy="#{estado.nome}"
 					filterBy="#{estado.sigla}">
 					<h:outputText value="#{estado.nome}" />
@@ -28,9 +38,10 @@
 					filterBy="#{estado.sigla}">
 					<h:outputText value="#{estado.sigla}" />
 				</p:column>
-				<p:column headerText="Opções">
+				<p:column headerText="Opções" style="width:100px">
+
 					<!-- Lixeira -->
-					<p:commandButton icon="ui-icon-trash"
+					<p:commandButton icon="ui-icon-trash" title="Remover"
 						actionListener="#{estadoBean.excluir}"
 						update=":mensagem :formList:tabelaList">
 						<p:confirm header="Atenção"
@@ -40,15 +51,18 @@
 					</p:commandButton>
 
 					<!-- Lápis -->
-					<p:commandButton icon="ui-icon-pencil"
+					<p:commandButton icon="ui-icon-pencil" title="Editar"
 						actionListener="#{estadoBean.editar}"
 						oncomplete="PF('dialogo').show();"
 						update=":formList:tabelaList :formCad:painelCad">
 						<f:attribute name="estadoSelecionado" value="#{estado}" />
+						<f:actionListener
+							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
-
 				</p:column>
 			</p:dataTable>
+
+			<!-- Dialogo de confirmação -->
 			<p:confirmDialog global="true">
 				<p:commandButton value="Não" type="button"
 					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
@@ -63,19 +77,22 @@
 		draggable="false" resizable="false" modal="true" closable="false">
 		<h:form id="formCad">
 			<h:panelGrid id="painelCad" columns="2">
-				<p:outputLabel value="Nome:" />
-				<p:inputText size="30" maxlength="50"
+				<p:outputLabel value="Nome:" for="nome" />
+				<p:inputText id="nome" size="30" maxlength="50" required="true"
+					requiredMessage="O campo 'Nome' é obrigatório!"
 					value="#{estadoBean.estado.nome}" />
-				<p:outputLabel value="Sigla:" />
-				<p:inputText size="5" maxlength="2"
-					value="#{estadoBean.estado.sigla}" />
+				<p:outputLabel value="Sigla:" for="sigla" />
+				<p:inputText id="sigla" required="true"
+					requiredMessage="O campo 'Sigla' é obrigatório!" size="5"
+					maxlength="2" value="#{estadoBean.estado.sigla}" />
 			</h:panelGrid>
 			<h:panelGrid columns="2">
-				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
-				<p:commandButton value="Salvar"
+				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();"
+					title="Fechar a Janela" />
+				<p:commandButton value="Salvar" title="Salvar o Produto"
 					actionListener="#{estadoBean.salvar}"
 					update=":mensagem :formCad:painelCad :formList:tabelaList"
-					oncomplete="#{estadoBeanBean.salvar()}"/>
+					oncomplete="#{estadoBeanBean.salvar()}" />
 			</h:panelGrid>
 		</h:form>
 	</p:dialog>
