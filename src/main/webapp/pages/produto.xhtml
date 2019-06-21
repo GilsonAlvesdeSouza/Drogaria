@@ -20,9 +20,9 @@
 				draggableRows="true" emptyMessage="Nenhum registro encontrado."
 				paginator="true" value="#{produtoBean.produtos}" var="produto"
 				rows="5">
-				<!-- Essa faz busca periodica na base de dados para que seja atualizado sempr o datatable -->
+				<!-- Essa faz busca periodica na base de dados para que seja atualizado sempr o datatable 
 				<p:ajax event="rowReorder" listener="#{produtoBean.moverLinha}"
-					update=":formList:tabelaList :mensagem" />
+					update=":formList:tabelaList :mensagem" />-->
 				<f:facet name="header">
 					<!-- Botão Novo -->
 					<p:commandButton value="Novo" actionListener="#{produtoBean.novo}"

@@ -61,7 +61,7 @@ public class GenericDAO<Entidade> {
 																						// apenas o nome da classe em
 																						// tempo de execução
 			return lista;
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			throw e;
 		} finally {
 			em.close();
@@ -81,7 +81,7 @@ public class GenericDAO<Entidade> {
 
 		try {
 			entidade = em.find(classe, codigo);
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			throw e;
 		} finally {
 			em.close();
@@ -150,7 +150,7 @@ public class GenericDAO<Entidade> {
 			lista = em.createQuery(consulta).getResultList();
 			return lista;
 
-		} catch (Exception e) {
+		} catch (RuntimeException e) {
 			throw e;
 		} finally {
 			em.close();

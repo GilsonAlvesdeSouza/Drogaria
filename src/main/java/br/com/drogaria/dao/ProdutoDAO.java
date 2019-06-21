@@ -10,6 +10,7 @@ import br.com.drogaria.domain.Produto;
  * @author gilsonalves
  *
  */
+@SuppressWarnings("serial")
 public class ProdutoDAO extends GenericDAO<Produto> implements Serializable {
 
 }

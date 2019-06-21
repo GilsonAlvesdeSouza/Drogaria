@@ -35,10 +35,10 @@ public class Pessoa extends GenericDomain {
 	@Column(length = 50, nullable = false)
 	private String bairro;
 
-	@Column(length = 10, nullable = false)
+	@Column(length = 10)
 	private String CEP;
 
-	@Column(length = 100, nullable = false)
+	@Column(length = 100)
 	private String complemento;
 
 	@Column(length = 15)
@@ -47,7 +47,7 @@ public class Pessoa extends GenericDomain {
 	@Column(length = 15, nullable = false)
 	private String celular;
 
-	@Column(length = 100, nullable = false)
+	@Column(length = 100)
 	private String email;
 
 	@ManyToOne
