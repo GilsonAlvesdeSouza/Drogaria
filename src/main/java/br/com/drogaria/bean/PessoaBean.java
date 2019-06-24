@@ -16,13 +16,10 @@ import org.primefaces.event.ReorderEvent;
 
 import br.com.drogaria.dao.CidadeDAO;
 import br.com.drogaria.dao.EstadoDAO;
-import br.com.drogaria.dao.FabricanteDAO;
 import br.com.drogaria.dao.PessoaDAO;
-import br.com.drogaria.dao.ProdutoDAO;
 import br.com.drogaria.domain.Cidade;
 import br.com.drogaria.domain.Estado;
 import br.com.drogaria.domain.Pessoa;
-import br.com.drogaria.domain.Produto;
 
 @SuppressWarnings({ "serial", "deprecation" })
 @ManagedBean
@@ -94,6 +91,7 @@ public class PessoaBean implements Serializable {
 	public void novo() {
 		try {
 			pessoa = new Pessoa();
+			estado = new Estado();
 			EstadoDAO edao = new EstadoDAO();
 			estados = edao.listarOrdenado("nome");
 			cidades = new ArrayList<Cidade>();
@@ -109,13 +107,16 @@ public class PessoaBean implements Serializable {
 	 * @param evento
 	 */
 	public void editar(ActionEvent evento) {
+		pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
 		try {
-			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
+			EstadoDAO edao = new EstadoDAO();
+			estados = edao.listar();
+			CidadeDAO cdao = new CidadeDAO();
+			cidades = cdao.listar();
+			estado = pessoa.getCidade().getEstado();
 
-			FabricanteDAO fabricanteDAO = new FabricanteDAO();
-			fabricantes = fabricanteDAO.listarOrdenado("descricao");
 		} catch (RuntimeException erro) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao tentar selecionar um produto");
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar selecionar uma Pessoa");
 			erro.printStackTrace();
 		}
 	}
@@ -125,13 +126,13 @@ public class PessoaBean implements Serializable {
 	 */
 	public void salvar() {
 		try {
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.merge(produto);
+			PessoaDAO pdao = new PessoaDAO();
+			pdao.merge(pessoa);
 			novo();
 			listar();
-			Messages.addGlobalInfo("Produto salvo com sucesso");
+			Messages.addGlobalInfo("Dados salvo com sucesso!");
 		} catch (javax.persistence.PersistenceException erro) {
-			Messages.addGlobalError("O Produto que você está tentando salvar já existe!");
+			Messages.addGlobalError("O 'CPF' que você está tentando salvar já existe!");
 		} catch (RuntimeException erro) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar salvar os dados!");
 			erro.printStackTrace();
@@ -144,15 +145,16 @@ public class PessoaBean implements Serializable {
 	 * @param evento
 	 */
 	public void excluir(ActionEvent evento) {
+		PessoaDAO pdao = new PessoaDAO();
 		try {
-			produto = (Produto) evento.getComponent().getAttributes().get("produtoSelecionado");
-
-			ProdutoDAO produtoDAO = new ProdutoDAO();
-			produtoDAO.excluir(produto.getCodigo());
+			pessoa = (Pessoa) evento.getComponent().getAttributes().get("pessoaSelecionada");
+			pdao.excluir(pessoa.getCodigo());
 			listar();
+			EstadoDAO edao = new EstadoDAO();
+			estados = edao.listar();
 			Messages.addGlobalInfo("Dados excluidos com sucesso");
 		} catch (RuntimeException erro) {
-			Messages.addFlashGlobalError("Ocorreu um erro ao tentar excluir o produto");
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar excluir e Pessoa!");
 			erro.printStackTrace();
 		}
 	}
@@ -179,5 +181,15 @@ public class PessoaBean implements Serializable {
 			erro.printStackTrace();
 		}
 	}
+
+//	public void capturaEstado() {
+//		pessoa
+//		try {
+//			
+//		} catch (RuntimeException erro) {
+//			Messages.addFlashGlobalError("Ocorreu um ao tentar listar as cidades!");
+//			erro.printStackTrace();
+//		}
+//	}
 
 }

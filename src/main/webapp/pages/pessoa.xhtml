@@ -62,6 +62,7 @@
 						<f:attribute name="pessoaSelecionada" value="#{pessoa}" />
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+
 					</p:commandButton>
 				</p:column>
 			</p:dataTable>
@@ -82,7 +83,7 @@
 		<h:form id="formCad">
 			<h:panelGrid id="painelCad" columns="2">
 				<p:outputLabel for="descricao" value="Nome:" />
-				<p:inputText id="descricao" maxlength="50" size="30"
+				<p:inputText id="descricao" maxlength="50" size="50"
 					value="#{pessoaBean.pessoa.nome}" required="true"
 					requiredMessage="O campo 'Nome' é obrigatório" />
 
@@ -104,10 +105,9 @@
 						itemLabel="Selecione um Estado" />
 					<f:selectItems value="#{pessoaBean.estados}" var="estado"
 						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
-					<p:ajax listener="#{pessoaBean.popular}" update=":formCad:cidade"/>	
-					
+					<p:ajax listener="#{pessoaBean.popular}" update=":formCad:cidade" />
 				</p:selectOneMenu>
-
+				
 				<p:outputLabel value="Cidade:" for="cidade" />
 				<p:selectOneMenu id="cidade" filter="true"
 					value="#{pessoaBean.pessoa.cidade}"
@@ -142,7 +142,7 @@
 					value="#{pessoaBean.pessoa.CEP}" />
 
 				<p:outputLabel for="complemento" value="Complemento:" />
-				<p:inputText id="complemento" maxlength="10" size="10"
+				<p:inputText id="complemento" maxlength="100" size="50"
 					value="#{pessoaBean.pessoa.complemento}" />
 
 				<p:outputLabel value="Telefone" for="telefone" />

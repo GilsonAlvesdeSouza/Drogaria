@@ -12,21 +12,22 @@ import javax.persistence.TemporalType;
 
 /**
  * classe Cliente
+ * 
  * @author gilsonalves
  *
  */
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "clientes")
-public class Cliente extends GenericDomain{
-	
+public class Cliente extends GenericDomain {
+
 	@Column(nullable = false)
 	@Temporal(TemporalType.DATE)
 	private Date dataCadastro;
-	
+
 	@Column(nullable = false)
 	private Boolean liberado;
-	
+
 	@OneToOne
 	@JoinColumn(name = "id_pessoa", nullable = false)
 	private Pessoa pessoa;
@@ -43,6 +44,24 @@ public class Cliente extends GenericDomain{
 		return liberado;
 	}
 
+	/**
+	 * Método que pega o status no banco e transforma em texto para ser exibido no
+	 * datatable
+	 * 
+	 * @return
+	 */
+	public String getLiberadoFormatado() {
+		String status = null;
+
+		if (getLiberado() == false) {
+			status = "Bloqueado";
+		} else {
+			status = "Liberado";
+		}
+
+		return status;
+	}
+
 	public void setLiberado(Boolean liberado) {
 		this.liberado = liberado;
 	}
@@ -54,5 +73,5 @@ public class Cliente extends GenericDomain{
 	public void setPessoa(Pessoa pessoa) {
 		this.pessoa = pessoa;
 	}
-	
+
 }
