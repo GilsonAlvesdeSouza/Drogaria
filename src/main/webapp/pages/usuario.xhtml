@@ -9,14 +9,15 @@
 	<title>Cadastro do Usuários</title>
 </h:head>
 <h:body>
-	<h:form>
+	<p:growl id="mensagem" />
+	<h:form id="formList">
 		<p:panel header="Usuários - Listagem">
-			<p:dataTable emptyMessage="Nenhum registro encontrado."
-				paginator="true" value="#{cidadeBean.cidades}" var="cidade"
-				rows="10">
+			<p:dataTable id="tabelaList"
+				emptyMessage="Nenhum registro encontrado." paginator="true"
+				value="#{usuarioBean.usuarios}" var="usuarios" rows="10">
 				<f:facet name="header">
 					<p:commandButton value="Novo" oncomplete="PF('dialogo').show();"
-						actionListener="#{cidadeBean.novo}"
+						actionListener="#{usuarioBean.novo}"
 						update=":formCad:painelCad :mensagem">
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
@@ -24,34 +25,38 @@
 				</f:facet>
 
 				<p:column headerText="Nome">
+					<h:outputText value="#{usuarios.pessoa.nome}" />
 				</p:column>
 
 				<p:column headerText="CPF">
+					<h:outputText value="#{usuarios.pessoa.CPF}" />
 				</p:column>
 
 				<p:column headerText="Tipo">
+					<h:outputText value="#{usuarios.tipoFormatado}" />
 				</p:column>
 
 				<p:column headerText="Ativo">
+					<h:outputText value="#{usuarios.ativoFormatado}" />
 				</p:column>
 
 				<p:column headerText="Opções" style="width:100px">
 					<!-- Lixeira  -->
 					<p:commandButton icon="ui-icon-trash"
-						actionListener="#{cidadeBean.excluir}"
+						actionListener="#{usuarioBean.excluir}"
 						update=":mensagem :formList:tabelaList">
 						<p:confirm header="Atenção"
 							message="Tem certeza que deseja excluir os dados?"
 							icon="ui-icon-alert" />
-						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
+						<f:attribute name="usuarioSelecionado" value="#{usuarios}" />
 					</p:commandButton>
 
 					<!-- Lápis -->
 					<p:commandButton icon="ui-icon-pencil"
-						actionListener="#{cidadeBean.editar}"
+						actionListener="#{usuarioBean.editar}"
 						oncomplete="PF('dialogo').show();"
 						update=":formList:tabelaList :formCad:painelCad :mensagem">
-						<f:attribute name="cidadeSelecionada" value="#{cidade}" />
+						<f:attribute name="usuarioSelecionado" value="#{usuarios}" />
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
 					</p:commandButton>
@@ -68,32 +73,45 @@
 
 	<p:dialog header="Usuários - Cadastro" widgetVar="dialogo"
 		draggable="false" resizable="false" modal="true" closable="false">
-		<h:form>
-			<h:panelGrid columns="2">
-				<p:outputLabel value="Pessoa:" />
-				<p:selectOneMenu filter="true">
-					<f:selectItem itemValue="" itemLabel="Selecione uma pessoa" />
+		<h:form id="formCad">
+			<h:panelGrid id="painelCad" columns="2">
+
+				<p:outputLabel for="pessoa" value="Pessoa:" />
+				<p:selectOneMenu id="pessoa" filter="true"
+					value="#{usuarioBean.usuario.pessoa}" required="true"
+					requiredMessage="O campo 'Pessoa' é obrigatório"
+					converter="omnifaces.SelectItemsConverter">
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione uma pessoa" />
+					<f:selectItems value="#{usuarioBean.pessoas}" var="pessoa"
+						itemValue="#{pessoa}" itemLabel="#{pessoa.nome} - #{pessoa.CPF}" />
 				</p:selectOneMenu>
 
-				<p:outputLabel value="Senha:" />
-				<p:password maxlength="8" size="10" />
-
-				<p:outputLabel value="Tipo:" />
-				<p:selectOneRadio>
+				<p:outputLabel value="Senha:" for="senha" />
+				<p:password id="senha" maxlength="8" size="10"
+					value="#{usuarioBean.usuario.senha}" required="true"
+					requiredMessage="O campo 'Senha' è obrigatório!"
+					validatorMessage="informe uma senha de 6 a 8 digitos!">
+					<f:validateLength minimum="6" maximum="8"/>
+				</p:password>
+				<p:outputLabel value="Tipo:" for="tipo" />
+				<p:selectOneRadio id="tipo" value="#{usuarioBean.usuario.tipo}"
+					required="true" requiredMessage="O campo 'Tipo' é obrigatório!">
 					<f:selectItem itemValue="A" itemLabel="Administrador" />
 					<f:selectItem itemValue="G" itemLabel="Gerente" />
 					<f:selectItem itemValue="B" itemLabel="Balconista" />
 				</p:selectOneRadio>
 
-				<p:outputLabel value="Ativo:" />
-				<p:selectBooleanCheckbox />
+				<p:outputLabel value="Ativo:" for="ativo" />
+				<p:selectBooleanCheckbox id="ativo"
+					value="#{usuarioBean.usuario.ativo}" />
 
 			</h:panelGrid>
 
 			<h:panelGrid columns="2">
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
 				<p:commandButton value="Salvar"
-					actionListener="#{cidadeBean.salvar}"
+					actionListener="#{usuarioBean.salvar}"
 					update=":mensagem :formCad:painelCad :formList:tabelaList" />
 			</h:panelGrid>
 		</h:form>

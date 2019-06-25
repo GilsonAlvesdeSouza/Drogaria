@@ -29,7 +29,7 @@ public class Cliente extends GenericDomain {
 	private Boolean liberado;
 
 	@OneToOne
-	@JoinColumn(name = "id_pessoa", nullable = false)
+	@JoinColumn(name = "id_pessoa", nullable = false, unique = true)
 	private Pessoa pessoa;
 
 	public Date getDataCadastro() {

@@ -36,6 +36,19 @@
 		</plugins>
 	</build>
 
+	<!-- Repositórios -->
+	<repositories>
+
+		<!-- PrimeFaces -->
+		<repository>
+			<id>prime-repo</id>
+			<name>PrimeFaces Maven Repository</name>
+			<url>http://repository.primefaces.org</url>
+			<layout>default</layout>
+		</repository>
+
+	</repositories>
+
 	<!-- Dependências -->
 	<dependencies>
 		<!-- JPA -->
@@ -89,12 +102,20 @@
 			<version>7.0</version>
 		</dependency>
 
+		<!-- Themas do PrimeFaces -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>all-themes</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
 		<!-- Dependencia para funcionar o Primefaces -->
 		<dependency>
 			<groupId>javax.enterprise</groupId>
 			<artifactId>cdi-api</artifactId>
 			<version>1.2</version>
 		</dependency>
+
 
 		<!-- Omnifaces -->
 		<dependency>
@@ -107,9 +128,15 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>javax.servlet-api</artifactId>
-			<version>3.1.0</version>			
+			<version>3.1.0</version>
 		</dependency>
 
+		<!-- Jersey -->
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet</artifactId>
+			<version>2.22.1</version>
+		</dependency>
 
 	</dependencies>
 </project>

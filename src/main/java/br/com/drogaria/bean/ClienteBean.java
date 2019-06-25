@@ -73,7 +73,18 @@ public class ClienteBean implements Serializable {
 	}
 
 	public void salvar() {
-
+		ClienteDAO cdao = new ClienteDAO();
+		try {
+			cdao.merge(cliente);
+			novo();
+			listar();
+			Messages.addFlashGlobalInfo("Dados salvos com sucesso!");
+		} catch (javax.persistence.PersistenceException erro) {
+			Messages.addGlobalError("A 'Pessoa' que você está tentando salvar já existe!");
+		} catch (RuntimeException erro) {
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar salvar os dados!");
+			erro.printStackTrace();
+		}
 	}
 
 	public void editar() {

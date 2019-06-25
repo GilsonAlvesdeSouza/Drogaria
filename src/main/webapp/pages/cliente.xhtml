@@ -7,6 +7,7 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Cadastro de Clientes</title>
+	<h:outputScript library="js" name="scripts.js"/>
 </h:head>
 <h:body>
 	<p:growl id="mensagem" />
@@ -93,23 +94,28 @@
 			<h:panelGrid id="painelCad" columns="2">
 				<p:outputLabel value="Pessoa:" for="pessoa" />
 				<p:selectOneMenu id="pessoa" filter="true" required="true"
-				requiredMessage="O campo 'pessoa' é Obrigatório!"
+					requiredMessage="O campo 'pessoa' é Obrigatório!"
 					converter="omnifaces.SelectItemsConverter"
 					value="#{clienteBean.cliente.pessoa}">
-					<f:selectItem noSelectionOption="true" itemLabel="Selecione uma Pessoa"/>
-					<f:selectItems value="#{clienteBean.pessoas}" var="pessoa" 
-					itemValue="#{pessoas}" itemLabel="#{pessoa.nome} - #{pessoa.CPF}" />
+					<f:selectItem noSelectionOption="true"
+						itemLabel="Selecione uma Pessoa" />
+					<f:selectItems value="#{clienteBean.pessoas}" var="pessoa"
+						itemValue="#{pessoas}" itemLabel="#{pessoa.nome} - #{pessoa.CPF}" />
 				</p:selectOneMenu>
-			
-				<p:outputLabel value="Data Cadastro:" for="data"/>
-				<p:calendar id="data" required="true" requiredMessage="O campo 'Data Cadastro' é Obrigatório!"/>
+
+				<p:outputLabel value="Data Cadastro:" for="data" />
+				<p:calendar id="data" required="true" locale="pt_BR"
+					value="#{clienteBean.cliente.dataCadastro}"
+					requiredMessage="O campo 'Data Cadastro' é Obrigatório!" />
+				
 				<p:outputLabel value="Ativo:" />
-				<p:selectBooleanCheckbox />
+				<p:selectBooleanCheckbox value="#{clienteBean.cliente.liberado}" />
 			</h:panelGrid>
 
 			<h:panelGrid columns="2">
 				<p:commandButton value="Fechar" oncomplete="PF('dialogo').hide();" />
-				<p:commandButton value="Salvar" actionListener="#{clienteBean.salvar}"
+				<p:commandButton value="Salvar"
+					actionListener="#{clienteBean.salvar}"
 					update=":mensagem :formCad:painelCad :formList:tabelaList"
 					title="Salvar a Pessoa" />
 			</h:panelGrid>
