@@ -13,16 +13,13 @@
 
 	<h:form id="formList">
 		<p:panel header="Produtos - Listagem" style="text-align:center;">
-			<p:poll interval="5" listener="#{produtoBean.listar}"
-				update=":formList:tabelaList :mensagem" />
+			
 			<!-- Tabela Listagem -->
 			<p:dataTable id="tabelaList" resizableColumns="true"
 				draggableRows="true" emptyMessage="Nenhum registro encontrado."
 				paginator="true" value="#{produtoBean.produtos}" var="produto"
 				rows="5">
-				<!-- Essa faz busca periodica na base de dados para que seja atualizado sempr o datatable 
-				<p:ajax event="rowReorder" listener="#{produtoBean.moverLinha}"
-					update=":formList:tabelaList :mensagem" />-->
+
 				<f:facet name="header">
 					<!-- Botão Novo -->
 					<p:commandButton value="Novo" actionListener="#{produtoBean.novo}"
@@ -71,7 +68,7 @@
 					<!-- Lápis -->
 					<p:commandButton icon="ui-icon-pencil"
 						actionListener="#{produtoBean.editar}"
-						update=":mensagem :formCad:painelCad"
+						update=":mensagem :formCad:painelCad "
 						oncomplete="PF('dialogo').show();" title="Editar">
 						<f:attribute name="produtoSelecionado" value="#{produto}" />
 						<f:actionListener
@@ -92,8 +89,8 @@
 
 	<!-- Formlário de cadastro -->
 	<p:dialog header="Produtos - Cadastro" widgetVar="dialogo"
-		draggable="false" resizable="false" modal="true" closable="false">
-		<h:form id="formCad">
+		draggable="true" resizable="false" modal="true" closable="false">
+		<h:form id="formCad" enctype="multipart/form-data">
 			<h:panelGrid id="painelCad" columns="2">
 
 				<p:outputLabel value="Descrição:" for="desc" />
@@ -111,7 +108,9 @@
 				<p:inputText maxlength="7" size="10" id="pre"
 					value="#{produtoBean.produto.preco}" required="true"
 					requiredMessage="O campo 'Preço' é obrigatório"
-					converterMessage="Informe um valor válido para o campo 'Preço''">
+					converterMessage="Informe um valor válido para o campo 'Preço''"
+					validatorMessage="Informe um valor entre 0,01 e 9999,99 para o campo 'Preço'">
+					<f:validateDoubleRange minimum="0.01" maximum="9999.99" />
 					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
 				</p:inputText>
 
@@ -126,6 +125,18 @@
 						itemValue="#{fabricante}" itemLabel="#{fabricante.descricao}" />
 				</p:selectOneMenu>
 
+				<p:outputLabel value="Carregar Imagem:" />
+				<p:fileUpload mode="advanced" auto="true" label="Escolher"
+					uploadLabel="Enviar" cancelLabel="Cancelar"
+					fileUploadListener="#{produtoBean.imagemUpload}"
+					update=":mensagem :formCad:imagem">					
+				</p:fileUpload>
+
+				<p:outputLabel value="Imagem:" />
+				<p:graphicImage id="imagem" value="#{imagemBean.imagem}" width="200" cache="false"
+					height="200">
+					<f:param name="caminho" value="#{produtoBean.produto.caminho}" />
+				</p:graphicImage>
 			</h:panelGrid>
 
 			<h:panelGrid columns="3" style="column-align: center;">

@@ -117,15 +117,16 @@ public class GenericDAO<Entidade> {
 	 * @param entidade
 	 */
 	@SuppressWarnings("static-access")
-	public void merge(Entidade entidade) {
+	public Entidade merge(Entidade entidade) {
 		EntityManager em = new ConnectionFactory().getConnection();
-
+		Entidade retorno = null;
 		try {
 			em.getTransaction().begin();
 			if (entidade != null) {
-				em.merge(entidade);
+				retorno = (Entidade) em.merge(entidade);
 			}
 			em.getTransaction().commit();
+			return retorno;
 		} catch (RuntimeException erro) {
 			em.getTransaction().rollback();
 			throw erro;

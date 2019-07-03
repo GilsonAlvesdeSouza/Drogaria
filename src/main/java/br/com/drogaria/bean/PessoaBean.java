@@ -182,14 +182,4 @@ public class PessoaBean implements Serializable {
 		}
 	}
 
-//	public void capturaEstado() {
-//		pessoa
-//		try {
-//			
-//		} catch (RuntimeException erro) {
-//			Messages.addFlashGlobalError("Ocorreu um ao tentar listar as cidades!");
-//			erro.printStackTrace();
-//		}
-//	}
-
 }

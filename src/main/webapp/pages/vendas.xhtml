@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Vendas</title>
+</h:head>
+<h:body>
+	<p:growl id="mensagem" />
+
+	<h:form id="formList">
+		<p:panel header="Produtos">
+			<p:dataTable id="tabelaProduto"
+				emptyMessage="Nenhum registro encontrado." paginator="true"
+				value="#{vendaBean.produtos}" var="produto" rows="3">
+
+				<p:column headerText="Descrição" filterBy="#{produto.descricao}"
+					sortBy="#{produto.descricao}">
+					<h:outputText value="#{produto.descricao}" />
+				</p:column>
+
+				<p:column headerText="Quantidade" style="width:100px">
+					<h:outputText value="#{produto.quantidade}" />
+				</p:column>
+
+				<p:column headerText="Preço" style="width:100px">
+					<h:outputText value="#{produto.preco}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Fabricante" style="width:200px"
+					filterBy="#{produto.fabricante.descricao}"
+					sortBy="#{produto.fabricante.descricao}">
+					<h:outputText value="#{produto.fabricante.descricao}" />
+				</p:column>
+
+
+				<p:column headerText="Opções" style="width:62px">
+					<p:commandButton icon="ui-icon-plus"
+						update=":formCesta:tabelaCesta :formCesta:painelFim :mensagem"
+						actionListener="#{vendaBean.add}">
+						<f:attribute name="produtoSelecionado" value="#{produto}" />
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+		</p:panel>
+	</h:form>
+
+
+	<h:form id="formCesta">
+		<p:panel id="painelCesta" header="Cesta de Compras">
+
+			<p:dataTable id="tabelaCesta" editable="true" editMode="cell"
+				emptyMessage="Nenhum registro encontrado." paginator="true"
+				value="#{vendaBean.itensVenda}" var="itemVenda" rows="3">
+				<p:ajax event="cellEdit" listener="#{vendaBean.onCellEdit}"
+					update=":mensagem :formCesta:painelFim " />
+
+
+
+				<p:column headerText="Quantidade" style="width:100px">
+
+					<p:cellEditor>
+						<f:facet name="output">
+							<h:outputText value="#{itemVenda.quantidade}">
+							</h:outputText>
+						</f:facet>
+						<f:facet name="input">
+							<p:inputText value="#{itemVenda.quantidade}" style="width:96px"
+								label="quantidade">
+								<p:ajax event="change"
+									update=":formCesta:tabelaCesta:"
+									listener="#{vendaBean.atualizaCesta}" />
+							</p:inputText>
+						</f:facet>
+					</p:cellEditor>
+				</p:column>
+
+				<p:column headerText="Descrição">
+					<h:outputText value="#{itemVenda.produto.descricao}" />
+				</p:column>
+
+
+				<p:column headerText="Preço Un." style="width:100px">
+					<h:outputText value="#{itemVenda.produto.preco}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Preço Parcial" style="width:150px">
+					<h:outputText id="vp" value="#{itemVenda.valorParcial}">
+						<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="Fabricante" style="width:200px">
+					<h:outputText value="#{itemVenda.produto.fabricante.descricao}" />
+				</p:column>
+
+				<p:column headerText="Opções" style="width:70px">
+
+
+					<p:commandButton icon="ui-icon-minus"
+						actionListener="#{vendaBean.remover}"
+						update=":formCesta:tabelaCesta :formCesta:painelFim">
+						<f:attribute name="itemSelecionado" value="#{itemVenda}" />
+					</p:commandButton>
+
+				</p:column>
+			</p:dataTable>
+		</p:panel>
+
+		<p:panel header="Total da Compras">
+			<h:panelGrid id="painelFim" columns="3">
+				<p:outputLabel value="Total: R$ " />
+				<h:outputText value="#{vendaBean.venda.precoTotal}">
+					<f:convertNumber locale="pt_BR" minFractionDigits="2" />
+				</h:outputText>
+				<p:commandButton value="Finalizar">
+					<p:confirm header="Confirmação" message="Deseja Finalizar a venda?"
+						icon="ui-icon-alert" />
+				</p:commandButton>
+			</h:panelGrid>
+
+			<!-- Dialogo de confirmação -->
+			<p:confirmDialog global="true">
+				<p:commandButton value="Não" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				<p:commandButton value="Sim" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+			</p:confirmDialog>
+		</p:panel>
+	</h:form>
+</h:body>
+</html>
