@@ -128,8 +128,8 @@ public class PessoaBean implements Serializable {
 		try {
 			PessoaDAO pdao = new PessoaDAO();
 			pdao.merge(pessoa);
-			novo();
 			listar();
+			novo();
 			Messages.addGlobalInfo("Dados salvo com sucesso!");
 		} catch (javax.persistence.PersistenceException erro) {
 			Messages.addGlobalError("O 'CPF' que você está tentando salvar já existe!");

@@ -107,7 +107,7 @@
 						itemValue="#{estado}" itemLabel="#{estado.nome} - #{estado.sigla}" />
 					<p:ajax listener="#{pessoaBean.popular}" update=":formCad:cidade" />
 				</p:selectOneMenu>
-				
+
 				<p:outputLabel value="Cidade:" for="cidade" />
 				<p:selectOneMenu id="cidade" filter="true"
 					value="#{pessoaBean.pessoa.cidade}"
@@ -124,8 +124,9 @@
 					value="#{pessoaBean.pessoa.rua}" required="true"
 					requiredMessage="O campo 'Rua' é obrigatório" />
 
-				<p:outputLabel value="Número" />
-				<p:inputText maxlength="5" size="10"
+				<p:outputLabel value="Número" for="num" />
+				<p:inputText maxlength="5" size="10" id="num" required="true"
+					requiredMessage="O campo 'Número' é obrigatório!"
 					value="#{pessoaBean.pessoa.numero}"
 					converterMessage="Informe um valor válido para o campo 'Número'"
 					validatorMessage="Informe um valor entre 1 e 32767 para o campo 'Número'">

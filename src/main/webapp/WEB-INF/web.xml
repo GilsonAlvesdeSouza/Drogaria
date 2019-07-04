@@ -13,6 +13,12 @@
 		<param-value>Development</param-value>
 	</context-param>
 
+	<!-- Definiçao do time zone -->
+	<context-param>
+		<param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	
 	<!-- Thema do PrimeFaces -->
 	<context-param>
 		<param-name>primefaces.THEME</param-name>

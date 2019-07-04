@@ -3,6 +3,7 @@ package br.com.drogaria.bean;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -13,7 +14,12 @@ import javax.faces.event.ActionEvent;
 import org.omnifaces.util.Messages;
 import org.primefaces.event.CellEditEvent;
 
+import br.com.drogaria.dao.ClienteDAO;
+import br.com.drogaria.dao.FuncionarioDAO;
 import br.com.drogaria.dao.ProdutoDAO;
+import br.com.drogaria.dao.VendaDAO;
+import br.com.drogaria.domain.Cliente;
+import br.com.drogaria.domain.Funcionario;
 import br.com.drogaria.domain.ItemVenda;
 import br.com.drogaria.domain.Produto;
 import br.com.drogaria.domain.Venda;
@@ -26,6 +32,9 @@ public class VendaBean implements Serializable {
 	private List<ItemVenda> itensVenda;
 	private ItemVenda itemVenda;
 	private Venda venda;
+	private List<Cliente> clientes;
+	private List<Funcionario> funcionarios;
+	private int totalProdutos;
 
 	public List<Produto> getProdutos() {
 		return produtos;
@@ -57,6 +66,30 @@ public class VendaBean implements Serializable {
 
 	public void setVenda(Venda venda) {
 		this.venda = venda;
+	}
+
+	public List<Cliente> getClientes() {
+		return clientes;
+	}
+
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
+	}
+
+	public List<Funcionario> getFuncionarios() {
+		return funcionarios;
+	}
+
+	public void setFuncionarios(List<Funcionario> funcionarios) {
+		this.funcionarios = funcionarios;
+	}
+
+	public int getTotalProdutos() {
+		return totalProdutos;
+	}
+
+	public void setTotalProdutos(int totalProdutos) {
+		this.totalProdutos = totalProdutos;
 	}
 
 	/**
@@ -108,10 +141,12 @@ public class VendaBean implements Serializable {
 				itemVenda.setProduto(produto);
 				itemVenda.setQuantidade(new Short("1"));
 				itensVenda.add(itemVenda);
+				setTotalProdutos(itensVenda.size());
 			} else {
 				itemVenda = itensVenda.get(achou);
 				itemVenda.setQuantidade(new Short(itemVenda.getQuantidade() + 1 + ""));
 				itemVenda.setValorParcial(produto.getPreco().multiply(new BigDecimal(itemVenda.getQuantidade())));
+				setTotalProdutos(itensVenda.size());
 			}
 			calculoTotal();
 		}
@@ -132,6 +167,8 @@ public class VendaBean implements Serializable {
 
 		if (achou > -1) {
 			itensVenda.remove(achou);
+			setTotalProdutos(itensVenda.size());
+			setItensVenda(itensVenda);
 		}
 		calculoTotal();
 	}
@@ -160,6 +197,36 @@ public class VendaBean implements Serializable {
 			calculoTotal();
 
 		}
+	}
+
+	public void finalizar() {
+		venda.setHorario(new Date());
+		FuncionarioDAO fdao = new FuncionarioDAO();
+		ClienteDAO cdao = new ClienteDAO();
+		try {
+			clientes = cdao.listarOrdenado("p.nome");
+			funcionarios = fdao.listarOrdenado("p.nome");
+		} catch (RuntimeException e) {
+			Messages.addFlashGlobalError("Ocoreeu um erro ao tentar listar o Funcionário venda!");
+			e.printStackTrace();
+		}
+	}
+
+	public void salvar() {
+		VendaDAO vdao = new VendaDAO();
+		if (venda.getPrecoTotal().signum() == 0) {
+			Messages.addFlashGlobalInfo("Informe algum Item para a venda. O valor da venda não pode ser Zero!");
+			return;
+		}
+		try {
+			vdao.salvar(venda, itensVenda);
+			Messages.addFlashGlobalInfo("Dados Salvos com Sucesso!");
+
+		} catch (RuntimeException e) {
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar salvar os dados!");
+			e.printStackTrace();
+		}
+
 	}
 
 }

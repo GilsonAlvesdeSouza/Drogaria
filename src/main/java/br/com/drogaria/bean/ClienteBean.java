@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.event.ActionEvent;
 
 import org.omnifaces.util.Messages;
 
@@ -22,6 +23,7 @@ public class ClienteBean implements Serializable {
 	private List<Cliente> clientes;
 	private Cliente cliente;
 	private List<Pessoa> pessoas;
+	private Pessoa pessoa;
 
 	public List<Cliente> getClientes() {
 		return clientes;
@@ -47,6 +49,14 @@ public class ClienteBean implements Serializable {
 		this.pessoas = pessoas;
 	}
 
+	public Pessoa getPessoa() {
+		return pessoa;
+	}
+
+	public void setPessoa(Pessoa pessoa) {
+		this.pessoa = pessoa;
+	}
+
 	/**
 	 * Método que lista os clientes
 	 */
@@ -54,7 +64,7 @@ public class ClienteBean implements Serializable {
 	public void listar() {
 		ClienteDAO cdao = new ClienteDAO();
 		try {
-			clientes = cdao.listarOrdenado("dataCadastro");
+			clientes = cdao.listarOrdenado("p.nome");
 		} catch (RuntimeException erro) {
 			Messages.addGlobalError("Ocorreu um erro ao tentar listar os dados!");
 			erro.printStackTrace();
@@ -87,12 +97,25 @@ public class ClienteBean implements Serializable {
 		}
 	}
 
-	public void editar() {
-
+	public void editar(ActionEvent evento) {
+		cliente = (Cliente) evento.getComponent().getAttributes().get("clienteSelecionado");
+		pessoa = cliente.getPessoa();
+		PessoaDAO pdao = new PessoaDAO();
+		pessoas = pdao.listarOrdenado("nome");
 	}
 
-	public void excluir() {
-
+	public void excluir(ActionEvent evento) {
+		cliente = (Cliente) evento.getComponent().getAttributes().get("clienteSelecionado");
+		ClienteDAO cdao = new ClienteDAO();
+		PessoaDAO pdao = new PessoaDAO();
+		try {
+			cdao.excluir(cliente.getCodigo());
+			listar();
+			pessoas = pdao.listarOrdenado("nome");
+			Messages.addGlobalInfo("Dados excluidos com sucesso");
+		} catch (RuntimeException erro) {
+			Messages.addFlashGlobalError("Ocorreu um erro ao tentar excluir e Pessoa!");
+			erro.printStackTrace();
+		}
 	}
-
 }
