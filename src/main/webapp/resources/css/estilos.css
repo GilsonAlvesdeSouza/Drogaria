@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.imagemCentralizada {
+	display: block;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.divTopo {
+	padding-bottom: 5px;	
+}
+
+.divCabecalho {
+	padding-bottom: 5px;
+}
+
+.textoCentralizado{
+	margin-left: auto;
+	margin-right: auto;
+}
+
+// reduz ou aumenta o tamanho dos componentes 
+.ui-widget, .ui-widget .ui-widget{
+	font-size: 95% !important;
+}

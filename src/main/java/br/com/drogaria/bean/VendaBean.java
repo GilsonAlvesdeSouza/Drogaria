@@ -201,6 +201,8 @@ public class VendaBean implements Serializable {
 
 	public void finalizar() {
 		venda.setHorario(new Date());
+		venda.setCliente(null);
+		venda.setFuncionario(null);
 		FuncionarioDAO fdao = new FuncionarioDAO();
 		ClienteDAO cdao = new ClienteDAO();
 		try {
@@ -218,10 +220,11 @@ public class VendaBean implements Serializable {
 			Messages.addFlashGlobalInfo("Informe algum Item para a venda. O valor da venda não pode ser Zero!");
 			return;
 		}
+
 		try {
 			vdao.salvar(venda, itensVenda);
 			Messages.addFlashGlobalInfo("Dados Salvos com Sucesso!");
-
+			novo();
 		} catch (RuntimeException e) {
 			Messages.addFlashGlobalError("Ocorreu um erro ao tentar salvar os dados!");
 			e.printStackTrace();
