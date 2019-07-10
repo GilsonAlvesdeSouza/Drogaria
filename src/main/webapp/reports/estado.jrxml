@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="estado" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="351db08c-b96a-496c-b8b7-ac30ad6908a6">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="479"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="521"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria data adapter"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT drogaria.estados.nome,
+	drogaria.estados.sigla
+FROM drogaria.estados
+ORDER BY drogaria.estados.nome ASC]]>
+	</queryString>
+	<field name="nome" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="nome"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estados"/>
+	</field>
+	<field name="sigla" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="sigla"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="estados"/>
+	</field>
+	<title>
+		<band height="80" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="-20" y="-10" width="595" height="80" uuid="9aaab32e-ee36-4c66-b880-f936d664b6b7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["/src/main/webapp/resources/imagens/banner.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="10" width="595" height="21" uuid="adfabcec-43e4-4ad4-99c0-dee69d710a83"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Relatório de Estado]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="30" uuid="77d07833-bd9a-433d-8e4f-2634f39ab8bb">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d36b6b6-dcfa-44ad-94be-04cd9a43ed2f"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="120" y="0" width="100" height="30" uuid="bbcea066-4a0b-4e12-a456-e64633bfb171">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f24d5a90-e6bb-46c9-914e-8d86f5c6dc4b"/>
+				</reportElement>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[sigla]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="30" uuid="b97b6ad3-e3ca-4db4-bc5a-73c4c598672c">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="5d36b6b6-dcfa-44ad-94be-04cd9a43ed2f"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="120" y="0" width="100" height="30" uuid="175404b1-8e6b-4ab7-8734-6445ec969208">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="f24d5a90-e6bb-46c9-914e-8d86f5c6dc4b"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{sigla}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="-20" y="0" width="595" height="20" uuid="b548380c-cddc-45aa-9e70-e3925b093c97"/>
+				<box>
+					<topPen lineWidth="1.0"/>
+				</box>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Rua Engenheiro Portela N°256 - Centro / Anápolis-GO  ]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+</jasperReport>
