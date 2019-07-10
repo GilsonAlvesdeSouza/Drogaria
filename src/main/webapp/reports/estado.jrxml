@@ -81,7 +81,7 @@ ORDER BY drogaria.estados.nome ASC]]>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="-20" y="0" width="595" height="20" uuid="b548380c-cddc-45aa-9e70-e3925b093c97"/>
+				<reportElement x="0" y="0" width="550" height="20" uuid="b548380c-cddc-45aa-9e70-e3925b093c97"/>
 				<box>
 					<topPen lineWidth="1.0"/>
 				</box>
