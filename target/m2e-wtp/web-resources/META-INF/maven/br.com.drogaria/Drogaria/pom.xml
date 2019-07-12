@@ -145,6 +145,13 @@
 			<version>2.4</version>
 		</dependency>
 
+		<!-- JasperReports -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.9.0</version>
+		</dependency>
+
 	</dependencies>
 </project>
 

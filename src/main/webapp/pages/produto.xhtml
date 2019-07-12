@@ -19,11 +19,13 @@
 
 				<f:facet name="header">
 					<!-- Botão Novo -->
-					<p:commandButton value="Novo" actionListener="#{produtoBean.novo}"
+					<p:commandButton icon="ui-icon-plus" actionListener="#{produtoBean.novo}"
 						title="cria um novo Produto" oncomplete="PF('dialogo').show();"
 						update=":formCad:painelCad :mensagem">
 						<f:actionListener
 							type="org.omnifaces.eventlistener.ResetInputAjaxActionListener" />
+					</p:commandButton>
+					<p:commandButton icon="ui-icon-print" actionListener="#{produtoBean.imprimir}">
 					</p:commandButton>
 				</f:facet>
 

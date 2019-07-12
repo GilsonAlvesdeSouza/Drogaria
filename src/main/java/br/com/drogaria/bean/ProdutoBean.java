@@ -6,7 +6,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,15 +19,21 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
+import org.omnifaces.util.Faces;
 import org.omnifaces.util.Messages;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.event.ReorderEvent;
 import org.primefaces.model.UploadedFile;
 
+import br.com.drogaria.conection.ConnectionFactory;
 import br.com.drogaria.dao.FabricanteDAO;
 import br.com.drogaria.dao.ProdutoDAO;
 import br.com.drogaria.domain.Fabricante;
 import br.com.drogaria.domain.Produto;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperPrintManager;
 
 @SuppressWarnings({ "serial", "deprecation" })
 @ManagedBean
@@ -169,6 +179,24 @@ public class ProdutoBean implements Serializable {
 			Messages.addFlashGlobalInfo("Imagem Carregada com sucesso!");
 		} catch (IOException erro) {
 			Messages.addFlashGlobalInfo("Ocorreu um erro ao carregar a imagem!");
+		}
+	}
+
+	public void imprimir() throws SQLException {
+		String imagePath = FacesContext.getCurrentInstance().getExternalContext()
+				.getRealPath("/resources/imagens/banner.jpg");
+		String caminho = Faces.getRealPath("/reports/produto.jasper");
+		Map<String, Object> parametros = new HashMap<>();
+		parametros.put("LOGO", imagePath);
+		parametros.put("PRODUTO_DESCRICAO", "%%");
+		parametros.put("FABRICANTE_DESCRICAO", "%%");
+		try {
+			Connection conexao = ConnectionFactory.getConnectionJDBC();
+			JasperPrint relatorio = JasperFillManager.fillReport(caminho, parametros, conexao);
+			JasperPrintManager.printReport(relatorio, true);
+		} catch (JRException e) {
+			Messages.addFlashGlobalInfo("Ocorreu um erro ao gerar o Relatório");
+			e.printStackTrace();
 		}
 	}
 

@@ -3,16 +3,22 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="produto" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b881df40-2e7b-4abf-81fb-d66b356183b1">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria data adapter"/>
+	<parameter name="PRODUTO_DESCRICAO" class="java.lang.String"/>
+	<parameter name="FABRICANTE_DESCRICAO" class="java.lang.String"/>
+	<parameter name="LOGO" class="java.lang.String"/>
 	<queryString language="SQL">
-		<![CDATA[SELECT drogaria.produtos.descricao as PrDescricao,
+		<![CDATA[SELECT drogaria.produtos.descricao AS PrDescricao,
 	drogaria.produtos.preco,
 	drogaria.produtos.quantidade,
-	drogaria.fabricantes.descricao as FabDescricao
+	drogaria.fabricantes.descricao AS FabDescricao
 FROM drogaria.produtos
 	INNER JOIN drogaria.fabricantes ON 
 	 drogaria.produtos.id_fabricante = drogaria.fabricantes.id 
-ORDER BY 
-	drogaria.produtos.descricao ASC,drogaria.fabricantes.descricao ASC]]>
+WHERE 
+	 drogaria.produtos.descricao LIKE $P{PRODUTO_DESCRICAO} AND
+	 drogaria.produtos.descricao LIKE $P{FABRICANTE_DESCRICAO} 
+ORDER BY drogaria.produtos.descricao ASC,
+	drogaria.fabricantes.descricao ASC]]>
 	</queryString>
 	<field name="PrDescricao" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="PrDescricao"/>
@@ -43,12 +49,10 @@ ORDER BY
 		<groupExpression><![CDATA[$F{FabDescricao}]]></groupExpression>
 	</group>
 	<title>
-		<band height="72" splitType="Stretch">
-			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="-20" y="-10" width="595" height="80" uuid="907bcc05-6f4c-4ec8-87ec-c471c65dba0c">
-					<property name="com.jaspersoft.studio.unit.height" value="px"/>
-				</reportElement>
-				<imageExpression><![CDATA["/src/main/webapp/resources/imagens/banner.jpg"]]></imageExpression>
+		<band height="86" splitType="Stretch">
+			<image hAlign="Center">
+				<reportElement x="-20" y="-10" width="595" height="96" uuid="f822d718-ba18-4b39-aebc-0e918c568409"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 		</band>
 	</title>

@@ -5,6 +5,7 @@
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="479"/>
 	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="521"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Drogaria data adapter"/>
+	<parameter name="LOGO" class="java.lang.String"/>
 	<queryString language="SQL">
 		<![CDATA[SELECT drogaria.estados.nome,
 	drogaria.estados.sigla
@@ -21,11 +22,9 @@ ORDER BY drogaria.estados.nome ASC]]>
 	</field>
 	<title>
 		<band height="80" splitType="Stretch">
-			<image hAlign="Center" vAlign="Middle">
-				<reportElement x="-20" y="-10" width="595" height="80" uuid="9aaab32e-ee36-4c66-b880-f936d664b6b7">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<imageExpression><![CDATA["/src/main/webapp/resources/imagens/banner.jpg"]]></imageExpression>
+			<image hAlign="Center">
+				<reportElement x="-20" y="-20" width="596" height="100" uuid="90767bb5-563b-4f7e-8cb7-625dd88fad9e"/>
+				<imageExpression><![CDATA[$P{LOGO}]]></imageExpression>
 			</image>
 		</band>
 	</title>

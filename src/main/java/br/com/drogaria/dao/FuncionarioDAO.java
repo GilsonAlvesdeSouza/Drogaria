@@ -6,14 +6,15 @@ import javax.persistence.EntityManager;
 
 import br.com.drogaria.conection.ConnectionFactory;
 import br.com.drogaria.domain.Funcionario;
-import br.com.drogaria.domain.Usuario;
 
 /**
- * Classe FuncionarioDAO responsável pelas transações do fabricante na base de dados
+ * Classe FuncionarioDAO responsável pelas transações do fabricante na base de
+ * dados
+ * 
  * @author gilsonalves
  *
  */
-public class FuncionarioDAO extends GenericDAO<Funcionario>{
+public class FuncionarioDAO extends GenericDAO<Funcionario> {
 
 	@Override
 	@SuppressWarnings({ "static-access", "unchecked" })
